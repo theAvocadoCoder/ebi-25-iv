@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Elms+Sans:ital,wght@0,100..900;1,100..900&family=Kapakana:wght@400&display=swap&family=Karma:wght@700&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #E06894;
+  --color-primary-light: #E494A9;
+  --font-sans: "Elms Sans", sans-serif;
+  --font-serif: "Karma", serif;
+  --font-display: "Kapakana", sans-serif;
+}
+
+bold {
+  font-weight: bold;
+}
