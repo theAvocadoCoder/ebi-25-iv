@@ -33,7 +33,7 @@ const wishListBg = [
 ]
 
 const wishListURL = [
-  "https://www.singer.com/products/singer-heavy-duty-4452-rosewater-pink-sewing-machine?variant=52510617665906", "#", "https://www.instagram.com/p/DdgxXnhim80/?mdxt=OGZ3ZHMybGw5MWJ5",
+  "https://www.singer.com/products/singer-heavy-duty-4452-rosewater-pink-sewing-machine?variant=52510617665906", "javascript:null", "https://www.instagram.com/p/DdgxXnhim80/?mdxt=OGZ3ZHMybGw5MWJ5",
   "https://www.instagram.com/p/DZ7RbrjNfMR/?srtk=MTYyeDllcHVqbWV3Ng==", "https://www.instagram.com/reel/DewybsrARP8/?obrf=MTIxMnp0NHhleGk5dw==", "/perfumes/",
   "https://www.instagram.com/p/Dcb8CTLkYuk/?xtok=cHFxNWppdnp1MzV4", "", "https://www.instagram.com/twinklesgems?dlrf=MWJlYmI2Ymh0MzJ6dQ==",
   "https://www.instagram.com/p/DXJolVeiKTg/?dlrf=dGt4aXB0Ymttb25s", "https://www.instagram.com/remefabrics?cplk=dWZkZGluemJza2Nm", "https://ng.oraimo.com/product/fm-and-customizable-lights-and-eq-speaker-spacebox-obs-382?ean=4894947066702"
@@ -123,7 +123,7 @@ if (app) {
     <div class="p-2.5 lg:p-5 bg-white max-w-240 mx-auto">
       <div class="grid grid-cols-3 justify-items-stretch gap-0.5 bg-primary p-0.5 min-w-67.5 max-w-240">
       ${wishList.map((wish, idx) => (`
-          <a href="${idx == 2 ? '#' : wishListURL[idx]}" ${[2,4].includes(idx) ? '' : 'target="_blank"'} after="${wish}" class="flex aspect-square items-center justify-center text-center max-md:text-sm md:text-xl lg:text-3xl font-bold ${idx%2==0 ? "bg-primary text-white" : "bg-white text-primary"} relative before:absolute before:opacity-20 ${wishListBg[idx]} before:bg-cover before:bg-center before:w-full before:h-full after:absolute after:w-full after:h-full after:content-[attr(after)] after:flex after:items-center after:justify-center"></a>
+          <a href="${wishListURL[idx]}" ${idx==1?`id="acctNo"`:""} ${[1,3].includes(idx) ? '' : 'target="_blank"'} after="${wish}" class="flex aspect-square items-center justify-center text-center max-md:text-sm md:text-xl lg:text-3xl font-bold ${idx%2==0 ? "bg-primary text-white" : "bg-white text-primary"} relative before:absolute before:opacity-20 ${wishListBg[idx]} before:bg-cover before:bg-center before:w-full before:h-full after:absolute after:w-full after:h-full after:content-[attr(after)] after:flex after:items-center after:justify-center"></a>
         `)).join("")
       }
       </div>
@@ -161,6 +161,16 @@ if (app) {
     rsvpBtn.textContent = "House 10, Khalid B. Isah. Marcus Poli Estate. 6th Avenue, Gwarinpa";
   }
 
+  const copyAcctNo = () => {
+    navigator.clipboard.writeText("1101522389")
+      .then(() => {
+        alert("Account number copied successfully");
+      })
+      .catch(err => {
+        console.error("Could not copy account number:( ...", err);
+      });
+  }
+
   const rsvpBtn = document.querySelector<HTMLButtonElement>("#rsvpBtn")!
   const rsvpDlgOvl = document.querySelector<HTMLElement>("#rsvpDlgOvl")!
   const rsvpDlg = document.querySelector<HTMLDivElement>("#rsvpDlg")!
@@ -168,6 +178,7 @@ if (app) {
   const nameInput = document.querySelector<HTMLSelectElement>("#nameInput")!
   const yesBtn = document.querySelector<HTMLButtonElement>("#yesBtn")!
   const noBtn = document.querySelector<HTMLButtonElement>("#noBtn")!
+  const acctNo = document.querySelector<HTMLButtonElement>("#acctNo")!
 
   rsvpBtn.addEventListener("click", () => {
     if (hasConfirmed) window.open("https://maps.app.goo.gl/zWfnkMgAWWXhCaG28", "_blank");
@@ -215,5 +226,7 @@ if (app) {
     toggleUnsure()
     toggleRSVP()
   })
+
+  acctNo.addEventListener("click", copyAcctNo)
 }
 
