@@ -20,5 +20,5 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "netlify/edge-functions/listGuests.ts"]
+  "include": ["src"]
 }
