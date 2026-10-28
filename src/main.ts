@@ -12,6 +12,12 @@ const needToKnow = [
   "It's going to be at <bold>My House</bold> on the <bold>31st</bold> of <bold>October</bold> by <bold>12pm</bold>"
 ]
 
+const guestList = [
+  "Kelz", "Choom Choom", "Mara", "Jimmy", "Snuggles",
+  "Laraba + 1", "Jera", "Val", "Sapphie", "Shadrach",
+  "Charity", "Esosa", "Jed", "Frosties", "Monk", "Fife"
+]
+
 const wishList = [
   "Singer 4452", "Money; 1101522389 Kuda MFB", "iPhone 15 [pink]",
   "Powerbeats Fit", "26&quot; pixie curls", "Perfumes",
@@ -34,6 +40,8 @@ const wishListURL = [
 ]
 
 let showRSVP = false;
+let isUnsure = JSON.parse(localStorage.getItem("isUnsure") ?? JSON.stringify(null)) ?? false;
+let hasConfirmed = JSON.parse(localStorage.getItem("hasConfirmed") ?? JSON.stringify(null)) ?? false;
 
 const app = document.querySelector<HTMLDivElement>("#app");
 
@@ -83,17 +91,22 @@ if (app) {
   </section>
   <section class="bg-[url(./assets/pinkSwirl.png)] bg-cover">
     <div class="text-white bg-linear-to-b from-primary/50 to-transparent flex flex-col items-center py-4">
-      <h2 class="uppercase font-black [-webkit-text-stroke:1px_primary] text-white">Are you coming?</h2>
-      <button id="rsvpBtn" class="px-10 py-4 w-62.5 h-16.25 rounded-lg border border-white bg-primary font-bold">RSVP</button>
+      <h2 id="rsvpH2" class="uppercase font-black [-webkit-text-stroke:1px_primary] text-white ${hasConfirmed ? "hidden" : ""}">${isUnsure ? "Wrong button, baby" : "Are you coming?"}</h2>
+      <button id="rsvpBtn" class="px-10 py-4 ${hasConfirmed ? "w-fit max-w-9/10 h-fit" : "w-62.5 h-16.25"} rounded-lg border border-white bg-primary font-bold">${hasConfirmed ? "House 10, Khalid B. Isah. Marcus Poli Estate. 6th Avenue, Gwarinpa" : "RSVP"}</button>
     </div>
   </section>
   <section id="rsvpDlgOvl" class="z-30 fixed w-screen h-screen -top-4 left-0 ${showRSVP ? "" : "hidden"} bg-indigo-900/50">
     <div id="rsvpDlg" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-7 py-5 bg-primary-light border border-primary text-white rounded-md">
-      <input class="border-primary bg-[#fffff9]/75 text-primary px-2.5 py-2 outline-0 rounded-sm mb-2.5" placeholder="Name" />
+      <select id="nameInput" name="guest" class="border-primary bg-[#fffff9]/75 text-primary outline-0 rounded-sm w-[clamp(13rem,70dvw,17.5rem)] [appearance:base-select] *:[::picker(select)]:[appearance:base-select] px-2.5 py-2 mb-2.5">
+        <option disabled selected value="">Who goes you~~</option>
+      ${guestList.map(guest => (`
+        <option value="${guest}" class="p-2.5">${guest}</option>
+      `)).join("")}
+      </select>
       <p class="font-medium">Are You Coming?</p>
-      <div class="flex gap-2.5 *:px-8 *:py-2 *:rounded-sm">
-        <button class="bg-primary">Yes</button>
-        <button class="bg-[#fffff9]/30 text-primary">No</button>
+      <div class="flex justify-between gap-2.5 *:px-12 *:py-2.5 *:rounded-sm">
+        <button id="yesBtn" class="bg-primary ${isUnsure ? "w-[clamp(13rem,70dvw,17.5rem)]" : ""}">Yes</button>
+        <button id="noBtn" class="bg-[#fffff9]/40 text-primary ${isUnsure ? "hidden" : ""}">No</button>
       </div>
     </div>
   </section>
@@ -110,7 +123,7 @@ if (app) {
     <div class="p-2.5 lg:p-5 bg-white max-w-240 mx-auto">
       <div class="grid grid-cols-3 justify-items-stretch gap-0.5 bg-primary p-0.5 min-w-67.5 max-w-240">
       ${wishList.map((wish, idx) => (`
-          <a href="${idx == 2 ? '#' : wishListURL[idx]}" ${idx == 2 ? '' : 'target="_blank"'} after="${wish}" class="flex aspect-square items-center justify-center text-center max-md:text-sm md:text-xl lg:text-3xl font-bold ${idx%2==0 ? "bg-primary text-white" : "bg-white text-primary"} relative before:absolute before:opacity-20 ${wishListBg[idx]} before:bg-cover before:bg-center before:w-full before:h-full after:absolute after:w-full after:h-full after:content-[attr(after)] after:flex after:items-center after:justify-center"></a>
+          <a href="${idx == 2 ? '#' : wishListURL[idx]}" ${[2,4].includes(idx) ? '' : 'target="_blank"'} after="${wish}" class="flex aspect-square items-center justify-center text-center max-md:text-sm md:text-xl lg:text-3xl font-bold ${idx%2==0 ? "bg-primary text-white" : "bg-white text-primary"} relative before:absolute before:opacity-20 ${wishListBg[idx]} before:bg-cover before:bg-center before:w-full before:h-full after:absolute after:w-full after:h-full after:content-[attr(after)] after:flex after:items-center after:justify-center"></a>
         `)).join("")
       }
       </div>
@@ -132,14 +145,75 @@ if (app) {
     rsvpDlgOvl.classList.toggle("hidden")
   }
 
+  const toggleUnsure = () => {
+    isUnsure = !isUnsure;
+    localStorage.setItem("isUnsure", JSON.stringify(isUnsure))
+    rsvpH2.textContent = "Wrong button, baby";
+    yesBtn.classList.add("w-[clamp(13rem,70dvw,17.5rem)]")
+    noBtn.classList.add("hidden")
+  }
+
+  const toggleConfirmed = () => {
+    hasConfirmed = !hasConfirmed;
+    localStorage.setItem("hasConfirmed", JSON.stringify(hasConfirmed))
+    rsvpH2.classList.toggle("hidden")
+    rsvpBtn.classList.add("w-full", "max-w-9/10", "h-fit")
+    rsvpBtn.textContent = "House 10, Khalid B. Isah. Marcus Poli Estate. 6th Avenue, Gwarinpa";
+  }
+
   const rsvpBtn = document.querySelector<HTMLButtonElement>("#rsvpBtn")!
   const rsvpDlgOvl = document.querySelector<HTMLElement>("#rsvpDlgOvl")!
   const rsvpDlg = document.querySelector<HTMLDivElement>("#rsvpDlg")!
+  const rsvpH2 = document.querySelector<HTMLHeadingElement>("#rsvpH2")!
+  const nameInput = document.querySelector<HTMLSelectElement>("#nameInput")!
+  const yesBtn = document.querySelector<HTMLButtonElement>("#yesBtn")!
+  const noBtn = document.querySelector<HTMLButtonElement>("#noBtn")!
 
-  rsvpBtn.addEventListener("click", toggleRSVP)
+  rsvpBtn.addEventListener("click", () => {
+    if (hasConfirmed) window.open("https://maps.app.goo.gl/zWfnkMgAWWXhCaG28", "_blank");
+    else toggleRSVP()
+  })
 
   rsvpDlgOvl.addEventListener("click", (e) => {
     if (!rsvpDlg.contains(e.target as HTMLElement)) toggleRSVP()
+  })
+
+  rsvpDlg.addEventListener("click", (e) => {
+    const t = e.target as HTMLButtonElement
+    if (t.tagName === "button") {
+      if (nameInput.value) {
+        console.log(nameInput.value)
+      }
+    }
+  })
+
+  yesBtn.addEventListener("click", async () => {
+    if (!nameInput.value) return;
+
+    const url = "http://localhost:8888/set"
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify({ name: nameInput.value, isAttending: "yes" })        
+      });
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+    toggleConfirmed()
+    toggleRSVP()
+  })
+  
+  noBtn.addEventListener("click", () => {
+    if (!nameInput.value) return;
+    toggleUnsure()
+    toggleRSVP()
   })
 }
 

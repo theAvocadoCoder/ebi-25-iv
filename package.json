@@ -13,7 +13,10 @@
     "vite": "^8.3.0"
   },
   "dependencies": {
+    "@netlify/blobs": "^11.1.7",
+    "@netlify/edge-functions": "^4.0.3",
     "@tailwindcss/vite": "^4.3.3",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "uuid": "^14.0.3"
   }
 }
