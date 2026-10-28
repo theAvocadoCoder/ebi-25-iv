@@ -22,7 +22,7 @@ if (app && pass == "Nachineke") {
   <section class="flex flex-col items-center py-4">
     <h2 class="font-bold text-primary">Confirmed Guests</h2>
     <ol class="text-primary">
-    ${(confirmed as string[]).map(guest => (`
+    ${(confirmed as string[] ?? []).map(guest => (`
       <li class="">- ${guest}</li>
     `)).join("")}
     </ol>
