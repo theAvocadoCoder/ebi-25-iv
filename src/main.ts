@@ -190,7 +190,7 @@ if (app) {
   yesBtn.addEventListener("click", async () => {
     if (!nameInput.value) return;
 
-    const url = "http://localhost:8888/set"
+    const url = "/set"
 
     try {
       const response = await fetch(url, {
