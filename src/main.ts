@@ -33,10 +33,10 @@ const wishListBg = [
 ]
 
 const wishListURL = [
-  "https://www.singer.com/products/singer-heavy-duty-4452-rosewater-pink-sewing-machine?variant=52510617665906", "", "",
-  "", "", "",
-  "", "", "",
-  "", "", ""
+  "https://www.singer.com/products/singer-heavy-duty-4452-rosewater-pink-sewing-machine?variant=52510617665906", "#", "https://www.instagram.com/p/DdgxXnhim80/?mdxt=OGZ3ZHMybGw5MWJ5",
+  "https://www.instagram.com/p/DZ7RbrjNfMR/?srtk=MTYyeDllcHVqbWV3Ng==", "https://www.instagram.com/reel/DewybsrARP8/?obrf=MTIxMnp0NHhleGk5dw==", "/perfumes",
+  "https://www.instagram.com/p/Dcb8CTLkYuk/?xtok=cHFxNWppdnp1MzV4", "", "https://www.instagram.com/twinklesgems?dlrf=MWJlYmI2Ymh0MzJ6dQ==",
+  "https://www.instagram.com/p/DXJolVeiKTg/?dlrf=dGt4aXB0Ymttb25s", "https://www.instagram.com/remefabrics?cplk=dWZkZGluemJza2Nm", "https://ng.oraimo.com/product/fm-and-customizable-lights-and-eq-speaker-spacebox-obs-382?ean=4894947066702"
 ]
 
 let showRSVP = false;
