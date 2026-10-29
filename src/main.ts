@@ -14,7 +14,7 @@ const needToKnow = [
 
 const guestList = [
   "Kelz", "Choom Choom", "Mara", "Jimmy", "Snuggles",
-  "Laraba + 1", "Jera", "Val", "Sapphie", "Shadrach",
+  "Laraba + 1", "Jera", "Val", "Sapphie", "Shadrach", "Tega",
   "Charity", "Esosa", "Jed", "Frosties", "Monk", "Fife"
 ]
 
